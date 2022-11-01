@@ -1,0 +1,1 @@
+## NWL - Copa 2022 Full stack application
