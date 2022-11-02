@@ -14,42 +14,40 @@ type HomeProps = {
   userCount: number;
 };
 
-// export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-//   console.log("Called");
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  try {
+    const [poolCountResponse, guessCountResponse, userCountResponse] =
+      await Promise.all([
+        api.get("/pools/count"),
+        api.get("/guesses/count"),
+        api.get("/users/count"),
+      ]);
 
-//   try {
-//     const [poolCountResponse, guessCountResponse, userCountResponse] =
-//       await Promise.all([
-//         api.get("/pools/count"),
-//         api.get("/guesses/count"),
-//         api.get("/users/count"),
-//       ]);
-
-//     return {
-//       props: {
-//         poolCount: poolCountResponse.data.count,
-//         guessCount: guessCountResponse.data.count,
-//         userCount: userCountResponse.data.count,
-//       },
-//       revalidate: 60,
-//     };
-//   } catch (error) {
-//     console.log(error);
-//     return {
-//       props: {
-//         poolCount: 0,
-//         guessCount: 0,
-//         userCount: 0,
-//       },
-//     };
-//   }
-// };
+    return {
+      props: {
+        poolCount: poolCountResponse.data.count,
+        guessCount: guessCountResponse.data.count,
+        userCount: userCountResponse.data.count,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      props: {
+        poolCount: 0,
+        guessCount: 0,
+        userCount: 0,
+      },
+    };
+  }
+};
 
 const Home = ({
   poolCount,
   guessCount,
   userCount,
-}: any) => {
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [poolTitle, setPoolTitle] = useState("");
 
   const createPool = async (event: FormEvent) => {
