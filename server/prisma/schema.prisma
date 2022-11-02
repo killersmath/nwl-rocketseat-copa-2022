@@ -5,6 +5,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// It is not running on WSL
 // generator erd {
 //   provider = "prisma-erd-generator"
 // }
