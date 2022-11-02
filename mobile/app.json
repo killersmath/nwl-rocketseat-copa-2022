@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "android-test",
-    "slug": "android-test",
+    "name": "nwlcopamobile",
+    "slug": "nwlcopamobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
