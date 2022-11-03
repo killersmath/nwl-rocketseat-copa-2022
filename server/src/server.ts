@@ -2,57 +2,61 @@ import { PrismaClient } from "@prisma/client";
 import Fastify from "fastify";
 import ShortUniqueId from "short-unique-id";
 
+import cors from "@fastify/cors";
+
 import { z } from "zod";
 
 const prisma = new PrismaClient({
-    log: ['query']
+  log: ["query"],
 });
 
 const run = async () => {
-    const fastify = Fastify({
-        logger: true
+  const fastify = Fastify({
+    logger: true,
+  });
+
+  await fastify.register(cors, {
+    origin: '*'
+  });
+
+  fastify.get("/pools/count", async () => {
+    const count = await prisma.pool.count();
+
+    return { count };
+  });
+
+  fastify.get("/users/count", async () => {
+    const count = await prisma.user.count();
+
+    return { count };
+  });
+
+  fastify.get("/guesses/count", async () => {
+    const count = await prisma.guess.count();
+
+    return { count };
+  });
+
+  fastify.post("/pools", async (request, reply) => {
+    const createPoolBody = z.object({
+      title: z.string(),
+    });
+    const { title } = createPoolBody.parse(request.body);
+
+    const generate = new ShortUniqueId({ length: 6 });
+    const poolCode = String(generate()).toUpperCase();
+
+    await prisma.pool.create({
+      data: {
+        title,
+        code: poolCode,
+      },
     });
 
-    fastify.get("/pools/count", async () => {
-        const count = await prisma.pool.count();
+    return reply.status(201).send({ code: poolCode });
+  });
 
-        return { count };
-    });
-
-    fastify.get("/users/count", async () => {
-        const count = await prisma.user.count();
-
-        return { count };
-    });
-
-    fastify.get("/guesses/count", async () => {
-        const count = await prisma.guess.count();
-
-        return { count };
-    });
-
-    fastify.post("/pools", async (request, reply) => {
-        const createPoolBody = z.object({
-            title: z.string(),
-        })
-        const { title } = createPoolBody.parse(request.body);
-
-        const generate = new ShortUniqueId({ length: 6 });
-        const poolCode = String(generate()).toUpperCase();
-
-        await prisma.pool.create({
-            data: {
-                title,
-                code: poolCode,
-            }
-        })
-
-        return reply.status(201).send({ code: poolCode });
-    });
-
-
-
-    await fastify.listen({ port: 3333 });
-}
+  await fastify.listen({ port: 3333 });
+};
 
 run();
