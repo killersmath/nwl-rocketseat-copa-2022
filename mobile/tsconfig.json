@@ -1,4 +1,21 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "jsx": "react-native",
+    "moduleResolution": "node",
+    "outDir": "build",
+    "allowJs": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+  },
+  "compileOnSave": false,
   "extends": "expo/tsconfig.base"
 }
