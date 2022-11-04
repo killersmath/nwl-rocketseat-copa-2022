@@ -7,7 +7,6 @@
         "next/core-web-vitals",
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
         "plugin:react-hooks/recommended",
         "prettier"
     ],
@@ -29,6 +28,7 @@
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-vars": "error",
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+        "indent": ["error", 4, { "SwitchCase": 2 }]
     }
 }
