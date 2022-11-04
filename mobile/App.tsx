@@ -7,11 +7,8 @@ import {
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
 
+import { Routes } from "./src/routes";
 import { Loading } from "./src/components/Loading";
-// import { New } from "./src/screens/New";
-// import { SignIn } from "./src/screens/SignIn";
-// import { Find } from "./src/screens/Find";
-import { Pools } from "./src/screens/Pools";
 import { AuthContextProvider } from "./src/contexts/AuthContext";
 
 import { THEME } from "./src/styles/theme";
@@ -31,7 +28,7 @@ export default function App() {
           backgroundColor="transparent"
           translucent
         />
-        {!fontsLoaded ? <Loading /> : <Pools />}
+        {!fontsLoaded ? <Loading /> : <Routes />}
       </AuthContextProvider>
     </NativeBaseProvider>
   );
