@@ -6,13 +6,15 @@
     "extends": [
         "next/core-web-vitals",
         "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
         "plugin:react-hooks/recommended",
-        "prettier"
+        "prettier",
+        "plugin:prettier/recommended"
     ],
     "settings": {
         "next": {
-          "rootDir": "web"
+            "rootDir": "web"
         }
     },
     "overrides": [],
@@ -22,13 +24,21 @@
     },
     "plugins": ["react"],
     "rules": {
-        "@typescript-eslint/no-unused-vars": "error",
+        "@next/next/no-html-link-for-pages": ["error", "src/pages"],
         "@typescript-eslint/no-explicit-any": "error",
         "react/jsx-uses-react": "off",
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-vars": "error",
-        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/rules-of-hooks": "warn",
         "react-hooks/exhaustive-deps": "warn",
-        "indent": ["error", 4, { "SwitchCase": 2 }]
+        "indent": ["error", 4, { "SwitchCase": 2 }],
+        "@typescript-eslint/no-unused-vars": [
+            "warn", // or "error"
+            {
+                "argsIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "caughtErrorsIgnorePattern": "^_"
+            }
+        ]
     }
 }
