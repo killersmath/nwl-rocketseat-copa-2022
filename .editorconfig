@@ -1,0 +1,8 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+trim_trailing_whitespace = false
+insert_final_newline = false
+indent_style = space
+indent_size = 4
