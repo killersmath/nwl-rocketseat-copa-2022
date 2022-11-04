@@ -4,9 +4,9 @@ export declare global {
             new: undefined;
             pools: undefined;
             find: undefined;
-            details: { 
+            details: {
                 id: string;
-             }
+            };
         }
     }
 }
