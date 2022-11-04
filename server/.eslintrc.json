@@ -1,0 +1,24 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "env": {
+        "es2020": true,
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "semi": "error",
+        "no-var": "error",
+        "space-in-parens": "error",
+        "indent": ["error", 4, { "SwitchCase": 2 }],
+        "prefer-const": "error"
+    }
+}

@@ -1,35 +1,50 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "npm run build && node build/index.js",
-    "build": "rimraf ./build && tsc",
-    "dev": "nodemon"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  },
-  "devDependencies": {
-    "@mermaid-js/mermaid-cli": "^9.1.7",
-    "nodemon": "^2.0.20",
-    "prisma": "^4.5.0",
-    "prisma-erd-generator": "^1.2.2",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.9.1",
-    "tsx": "^3.11.0",
-    "typescript": "^4.8.4"
-  },
-  "dependencies": {
-    "@fastify/cors": "^8.1.1",
-    "@fastify/jwt": "^6.3.2",
-    "@prisma/client": "^4.5.0",
-    "fastify": "^4.9.2",
-    "short-unique-id": "^4.4.4",
-    "zod": "^3.19.1"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "npm run build && node build/index.js",
+        "build": "rimraf ./build && tsc",
+        "dev": "nodemon",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint:check": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "prisma": {
+        "seed": "tsx prisma/seed.ts"
+    },
+    "devDependencies": {
+        "@mermaid-js/mermaid-cli": "^9.1.7",
+        "@typescript-eslint/eslint-plugin": "^5.42.0",
+        "@typescript-eslint/parser": "^5.42.0",
+        "eslint": "^8.26.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-config-standard-with-typescript": "^23.0.0",
+        "eslint-plugin-import": "^2.25.2",
+        "eslint-plugin-n": "^15.0.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-promise": "^6.0.0",
+        "lint-staged": "^13.0.3",
+        "nodemon": "^2.0.20",
+        "prettier": "^2.7.1",
+        "prisma": "^4.5.0",
+        "prisma-erd-generator": "^1.2.2",
+        "rimraf": "^3.0.2",
+        "ts-node": "^10.9.1",
+        "tsx": "^3.11.0",
+        "typescript": "*"
+    },
+    "dependencies": {
+        "@fastify/cors": "^8.1.1",
+        "@fastify/jwt": "^6.3.2",
+        "@prisma/client": "^4.5.0",
+        "fastify": "^4.9.2",
+        "short-unique-id": "^4.4.4",
+        "zod": "^3.19.1"
+    }
 }
