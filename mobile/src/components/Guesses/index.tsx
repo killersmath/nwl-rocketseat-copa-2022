@@ -50,6 +50,8 @@ export function Guesses({ poolId, code }: GuessesProps) {
             });
 
             showSuccess("Palpite realizado com sucesso!");
+
+            fetchGames(poolId);
         } catch (error) {
             console.log("error");
 
