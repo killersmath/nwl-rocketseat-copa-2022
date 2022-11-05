@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { Button, HStack, Text, useTheme, VStack } from "native-base";
 import { X, Check } from "phosphor-react-native";
 import { getName } from "country-list";
-import dayJs from "dayjs";
-import ptBR from "dayjs/locale/pt-br";
+import { toPTBRFormat } from "../../utils/date";
 
 import { Team } from "../Team";
 
@@ -21,6 +21,7 @@ export interface GameData {
     firstTeamCountryCode: string;
     secondTeamCountryCode: string;
     guess: null | GuessData;
+    isOver: boolean;
 }
 
 interface GameProps {
@@ -36,11 +37,16 @@ export function Game({
     setSecondTeamPoints,
     onGuessConfirm,
 }: GameProps) {
+    const [isLoading, setIsLoading] = useState(false);
     const { colors, sizes } = useTheme();
 
-    const when = dayJs(data.date)
-        .locale(ptBR)
-        .format("DD [de] MMMM [de] YYYY [às] HH:00[h]");
+    const formatedDate = toPTBRFormat(data.date);
+
+    const handleButtonClick = async () => {
+        setIsLoading(true);
+        await onGuessConfirm();
+        setIsLoading(false);
+    };
 
     return (
         <VStack
@@ -59,7 +65,7 @@ export function Game({
             </Text>
 
             <Text color="gray.200" fontSize="xs">
-                {when}
+                {formatedDate}
             </Text>
 
             <HStack
@@ -70,6 +76,7 @@ export function Game({
             >
                 <Team
                     code={data.firstTeamCountryCode}
+                    points={data.guess?.firstTeamPoints}
                     position="right"
                     onChangeText={setFirstTeamPoints}
                 />
@@ -78,6 +85,7 @@ export function Game({
 
                 <Team
                     code={data.secondTeamCountryCode}
+                    points={data.guess?.secondTeamPoints}
                     position="left"
                     onChangeText={setSecondTeamPoints}
                 />
@@ -87,9 +95,11 @@ export function Game({
                 <Button
                     size="xs"
                     w="full"
-                    bgColor="green.500"
+                    bgColor={data.isOver ? "gray.500" : "green.500"}
                     mt={4}
-                    onPress={onGuessConfirm}
+                    onPress={handleButtonClick}
+                    isLoading={isLoading}
+                    isDisabled={data.isOver}
                 >
                     <HStack alignItems="center">
                         <Text
@@ -98,10 +108,14 @@ export function Game({
                             fontFamily="heading"
                             mr={3}
                         >
-                            CONFIRMAR PALPITE
+                            {data.isOver
+                                ? "TEMPO ESGOTADO"
+                                : "CONFIRMAR PALPITE"}
                         </Text>
 
-                        <Check color={colors.white} size={sizes[4]} />
+                        {!data.isOver && (
+                            <Check color={colors.white} size={sizes[4]} />
+                        )}
                     </HStack>
                 </Button>
             )}

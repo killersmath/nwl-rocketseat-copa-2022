@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList } from "native-base";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { Game, GameData } from "../../components/Game";
 import { Loading } from "../Loading";
@@ -21,6 +22,11 @@ export function Guesses({ poolId, code }: GuessesProps) {
     const [secondTeamPoints, setSecondTeamPoints] = useState("");
 
     const { showSuccess, showError } = useNotification();
+
+    const resetInputState = () => {
+        setFirstTeamPoints("");
+        setSecondTeamPoints("");
+    };
 
     const fetchGames = async (id: string) => {
         try {
@@ -52,9 +58,9 @@ export function Guesses({ poolId, code }: GuessesProps) {
             showSuccess("Palpite realizado com sucesso!");
 
             fetchGames(poolId);
+            resetInputState();
         } catch (error) {
-            console.log("error");
-
+            console.log(error);
             showError("Não foi possível enviar o palpite.");
         }
     };
@@ -62,6 +68,12 @@ export function Guesses({ poolId, code }: GuessesProps) {
     useEffect(() => {
         fetchGames(poolId);
     }, [poolId]);
+
+    useFocusEffect(
+        useCallback(() => {
+            resetInputState();
+        }, [])
+    );
 
     if (isLoading) {
         return <Loading />;
