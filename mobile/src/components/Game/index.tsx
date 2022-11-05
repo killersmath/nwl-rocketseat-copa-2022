@@ -60,7 +60,7 @@ export function Game({
             p={4}
         >
             <Text color="gray.100" fontFamily="heading" fontSize="sm">
-                {getName(data.firstTeamCountryCode)} vs.{" "}
+                {getName(data.firstTeamCountryCode)} {" vs. "}
                 {getName(data.secondTeamCountryCode)}
             </Text>
 

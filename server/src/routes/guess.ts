@@ -41,7 +41,7 @@ export async function guessRoutes(fastify: FastifyInstance) {
             if (!participant) {
                 return reply.status(400).send({
                     message:
-                        "You're not allowed to create a guess inside this pool.",
+                        "You're not allowed to create a guess inside this pool",
                 });
             }
 
@@ -57,7 +57,7 @@ export async function guessRoutes(fastify: FastifyInstance) {
             if (guess) {
                 return reply.status(400).send({
                     message:
-                        "You already sent a guess to this game on this pool.",
+                        "You already sent a guess to this game on this pool",
                 });
             }
 
@@ -75,7 +75,7 @@ export async function guessRoutes(fastify: FastifyInstance) {
 
             if (game.date < new Date()) {
                 return reply.status(400).send({
-                    message: "You cannot send guesses after the game date.",
+                    message: "You cannot send guesses after the game date",
                 });
             }
 
