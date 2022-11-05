@@ -30,12 +30,15 @@ export async function gameRoutes(fastify: FastifyInstance) {
                 },
             });
 
+            const currentDate = new Date();
+
             return {
                 games: games.map((game) => {
                     return {
                         ...game,
                         guess: game.guesses.length > 0 ? game.guesses[0] : null,
                         guesses: undefined,
+                        isOver: game.date < currentDate,
                     };
                 }),
             };
