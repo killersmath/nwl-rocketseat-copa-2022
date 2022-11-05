@@ -22,7 +22,7 @@
         "semi": "error",
         "no-var": "error",
         "space-in-parens": "error",
-        "indent": ["error", 4, { "SwitchCase": 2 }],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "prefer-const": "error",
         "no-use-before-define": "off",
         "@typescript-eslint/no-use-before-define": ["error"],

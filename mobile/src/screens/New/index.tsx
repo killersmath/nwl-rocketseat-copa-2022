@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heading, Text, VStack, useToast } from "native-base";
+import { Heading, Text, VStack } from "native-base";
 
 import Logo from "../../assets/logo.svg";
 import { Header } from "../../components/Header";
@@ -8,19 +8,17 @@ import { Button } from "../../components/Button";
 
 import { api } from "../../services/api";
 
+import { useNotification } from "../../hooks/useShowNotification";
+
 export function New() {
     const [title, setTitle] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const toast = useToast();
+    const { showSuccess, showError } = useNotification();
 
     const handlePoolCreate = async () => {
         if (!title.trim()) {
-            return toast.show({
-                title: "Informe um nome para o seu bolão",
-                placement: "top",
-                bgColor: "red.500",
-            });
+            return showError("Informe um nome para o seu bolão");
         }
 
         try {
@@ -30,20 +28,14 @@ export function New() {
                 title,
             });
 
-            toast.show({
-                title: "Bolão criado com sucesso!",
-                placement: "top",
-                bgColor: "green.500",
-            });
+            showSuccess("Bolão criado com sucesso!");
 
             setTitle("");
         } catch (error) {
             console.log(error);
-            toast.show({
-                title: "Não foi possível criar o bolão",
-                placement: "top",
-                bgColor: "red.500",
-            });
+
+            showError("Não foi possível criar o bolão");
+
             throw error;
         } finally {
             setIsLoading(false);

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { useToast, FlatList } from "native-base";
-import { api } from "../../services/api";
+import { FlatList } from "native-base";
 
 import { Game, GameData } from "../../components/Game";
 import { Loading } from "../Loading";
 import { EmptyMyPoolList } from "../EmptyMyPoolList";
+
+import { api } from "../../services/api";
+
+import { useNotification } from "../../hooks/useShowNotification";
 
 interface GuessesProps {
     poolId: string;
@@ -14,11 +17,10 @@ interface GuessesProps {
 export function Guesses({ poolId, code }: GuessesProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [games, setGames] = useState<GameData[]>([]);
-
     const [firstTeamPoints, setFirstTeamPoints] = useState("");
     const [secondTeamPoints, setSecondTeamPoints] = useState("");
 
-    const toast = useToast();
+    const { showSuccess, showError } = useNotification();
 
     const fetchGames = async (id: string) => {
         try {
@@ -29,11 +31,8 @@ export function Guesses({ poolId, code }: GuessesProps) {
             setGames(response.data.games);
         } catch (error) {
             console.log(error);
-            toast.show({
-                title: "Não foi possível encontrar os jogos.",
-                placement: "top",
-                bgColor: "red.500",
-            });
+
+            showError("Não foi possível encontrar os jogos.");
         } finally {
             setIsLoading(false);
         }
@@ -42,11 +41,7 @@ export function Guesses({ poolId, code }: GuessesProps) {
     const handleGuessConfirm = async (gameId: string) => {
         try {
             if (!firstTeamPoints.trim() || !secondTeamPoints.trim()) {
-                return toast.show({
-                    title: "Informa o placar do palpite.",
-                    placement: "top",
-                    bgColor: "red.500",
-                });
+                return showError("Informa o placar do palpite.");
             }
 
             await api.post(`/pools/${poolId}/games/${gameId}/guesses`, {
@@ -54,19 +49,11 @@ export function Guesses({ poolId, code }: GuessesProps) {
                 secondTeamPoints: Number(secondTeamPoints),
             });
 
-            toast.show({
-                title: "Palpite realizado com sucesso!",
-                placement: "top",
-                bgColor: "green.500",
-            });
+            showSuccess("Palpite realizado com sucesso!");
         } catch (error) {
             console.log("error");
 
-            toast.show({
-                title: "Não foi possível enviar o palpite.",
-                placement: "top",
-                bgColor: "red.500",
-            });
+            showError("Não foi possível enviar o palpite.");
         }
     };
 

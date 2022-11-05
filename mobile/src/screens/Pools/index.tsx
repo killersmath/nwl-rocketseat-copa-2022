@@ -1,38 +1,38 @@
 import { useCallback, useState } from "react";
-import { VStack, Icon, useToast, FlatList } from "native-base";
+import { VStack, Icon, FlatList } from "native-base";
 import { Octicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Header } from "../../components/Header";
-// import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { PoolCard, PoolData } from "../../components/PoolCard";
 import { Loading } from "../../components/Loading";
+import { EmptyPoolList } from "../../components/EmptyPoolList";
 
 import { api } from "../../services/api";
-import { EmptyPoolList } from "../../components/EmptyPoolList";
+
+import { useNotification } from "../../hooks/useShowNotification";
 
 export function Pools() {
     const [isLoading, setIsLoading] = useState(true);
     const [pools, setPools] = useState<PoolData[]>([]);
 
     const { navigate } = useNavigation();
-    const toast = useToast();
+
+    const { showError } = useNotification();
 
     const fetchPools = async () => {
         try {
             setIsLoading(true);
+
             const response = await api.get("/pools");
+
             setPools(response.data.pools);
         } catch (error) {
             console.log(error);
 
-            toast.show({
-                title: "Não foi possível carregar os bolões",
-                placement: "top",
-                bgColor: "red.500",
-            });
+            showError("Não foi possível carregar os bolões!");
         } finally {
             setIsLoading(false);
         }

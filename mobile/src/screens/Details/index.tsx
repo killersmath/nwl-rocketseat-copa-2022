@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
 import { Share } from "react-native";
-import { HStack, useToast, VStack } from "native-base";
+import { HStack, VStack } from "native-base";
 import { useRoute } from "@react-navigation/native";
 
 import { Header } from "../../components/Header";
 import { Loading } from "../../components/Loading";
 import { PoolData } from "../../components/PoolCard";
 import { EmptyMyPoolList } from "../../components/EmptyMyPoolList";
-import { Guesses } from "../../components/Guesses";
 
-import { api } from "../../services/api";
 import { PoolHeader } from "../../components/PoolHeader";
 import { Option } from "../../components/Option";
+import { Guesses } from "../../components/Guesses";
+
+import { useNotification } from "../../hooks/useShowNotification";
+
+import { api } from "../../services/api";
 
 interface DetailsRouteParams {
     id: string;
@@ -25,9 +28,9 @@ export function Details() {
     const [isLoading, setIsLoading] = useState(false);
     const [poolDetails, setPoolDetails] = useState<PoolData>({} as PoolData);
 
-    const toast = useToast();
-    const route = useRoute();
+    const { showError } = useNotification();
 
+    const route = useRoute();
     const { id } = route.params as DetailsRouteParams;
 
     const fetchPoolDetails = async (poolId: string) => {
@@ -35,15 +38,12 @@ export function Details() {
             setIsLoading(true);
 
             const response = await api.get(`/pools/${poolId}`);
+
             setPoolDetails(response.data.pool);
         } catch (error) {
             console.log(error);
 
-            toast.show({
-                title: "Não foi possível carregar os detalhes do bolão.",
-                placement: "top",
-                bgColor: "red.500",
-            });
+            showError("Não foi possível carregar os detalhes do bolão.");
         } finally {
             setIsLoading(false);
         }

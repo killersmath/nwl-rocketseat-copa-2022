@@ -1,66 +1,46 @@
 import { useState } from "react";
-import { Heading, useToast, VStack } from "native-base";
+import { Heading, VStack } from "native-base";
 import { useNavigation } from "@react-navigation/native";
-
-import { api } from "../../services/api";
 
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 
+import { api } from "../../services/api";
+
+import { useNotification } from "../../hooks/useShowNotification";
+
 export function Find() {
     const [isLoading, setIsLoading] = useState(false);
     const [code, setCode] = useState("");
-
-    const toast = useToast();
     const { navigate } = useNavigation();
+
+    const { showSuccess, showError } = useNotification();
 
     const handleJoinPool = async () => {
         try {
             if (!code.trim()) {
-                return toast.show({
-                    title: "Informe o código!",
-                    placement: "top",
-                    bgColor: "red.500",
-                });
+                return showError("Informe o código!");
             }
 
             await api.post("/pools/join", { code });
-
-            toast.show({
-                title: "Você entrou no bolão com sucesso!",
-                placement: "top",
-                bgColor: "green.500",
-            });
+            showSuccess("Você entrou no bolão com sucesso!");
             navigate("pools");
         } catch (error) {
             console.log(error);
             setIsLoading(true);
 
-            if (error.response?.data?.message === "Pool not found") {
-                return toast.show({
-                    title: "Bolão não encontrado!",
-                    placement: "top",
-                    bgColor: "red.500",
-                });
-            }
+            const defaultMessage = "Você já está nesse bolão!";
+            const messageDicionary: Record<string, string> = {
+                "Pool not found": "Bolão não encontrado!",
+                "You've already joined in this pool": "Bolão não encontrado!",
+            };
 
-            if (
-                error.response?.data?.message ===
-                "You've already joined in this pool."
-            ) {
-                return toast.show({
-                    title: "Você já está nesse bolão!",
-                    placement: "top",
-                    bgColor: "red.500",
-                });
-            }
+            const responseMessage = error.response?.data?.message;
+            const errorMessage =
+                messageDicionary[responseMessage] ?? defaultMessage;
 
-            toast.show({
-                title: "Não foi possível encontrar o bolão.",
-                placement: "top",
-                bgColor: "red.500",
-            });
+            showError(errorMessage);
         }
     };
 
