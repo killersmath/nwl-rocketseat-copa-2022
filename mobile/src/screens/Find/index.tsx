@@ -30,10 +30,11 @@ export function Find() {
             console.log(error);
             setIsLoading(true);
 
-            const defaultMessage = "Você já está nesse bolão!";
+            const defaultMessage = "o Bolão não encontrado!";
             const messageDicionary: Record<string, string> = {
                 "Pool not found": "Bolão não encontrado!",
-                "You've already joined in this pool": "Bolão não encontrado!",
+                "You've already joined in this pool":
+                    "Você já está nesse bolão!",
             };
 
             const responseMessage = error.response?.data?.message;
