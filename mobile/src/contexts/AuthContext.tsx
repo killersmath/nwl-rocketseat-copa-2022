@@ -30,7 +30,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<UserProps>({} as UserProps);
     const [isUserLoading, setIsUserLoading] = useState(false);
 
-    const [_, response, promptAsync] = Google.useAuthRequest({
+    const [, response, promptAsync] = Google.useAuthRequest({
         clientId: GOOGLE_CLIENT_ID,
         redirectUri: AuthSession.makeRedirectUri({ useProxy: true }),
         scopes: ["profile", "email"],
@@ -60,7 +60,7 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
             const userInfoResponse = await api.get("/me");
             setUser(userInfoResponse.data.user);
         } catch (error) {
-            console.log(error);
+            console.log(error.response?.data ?? error);
             throw error;
         } finally {
             setIsUserLoading(false);
@@ -68,9 +68,13 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
     };
 
     useEffect(() => {
+        console.log("Google Response", {
+            responseType: response?.type,
+            authentication:
+                response?.type === "success" ? response.authentication : null,
+        });
         if (
-            response &&
-            response.type === "success" &&
+            response?.type === "success" &&
             response.authentication?.accessToken
         ) {
             signInWithGoogle(response.authentication.accessToken);
