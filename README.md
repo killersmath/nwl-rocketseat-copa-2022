@@ -25,7 +25,7 @@ This project is part of 10th edition of Rocketseat NWL program.
 
  For running this porject, it required to generate a AUTH2 credentials in (https://console.cloud.google.com/apis/credentials)[google cloud console] for the Expo application. Read more about in https://docs.expo.dev/guides/authentication/#google
 
-> :warning: Do not commit secret environments on .env files. It's recommended to save this environments in .env.local or .env.development.local files.
+> :warning: Do not commit secret environments on .env files. It's recommended to save these variables in .env.local or .env.development.local files.
 
 **environments template**
 ```
