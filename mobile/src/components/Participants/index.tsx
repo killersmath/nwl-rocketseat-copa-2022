@@ -27,8 +27,7 @@ export function Participants({ participants, count }: ParticipantsProps) {
                     marginRight={-3}
                     borderColor="gray.800"
                 >
-                    {participantItem?.user?.name?.at(0)?.toUpperCase() ??
-                        "Desconhecido"}
+                    {participantItem?.user?.name?.at(0)?.toUpperCase() ?? "Any"}
                 </Avatar>
             ))}
 

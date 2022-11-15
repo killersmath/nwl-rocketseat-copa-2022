@@ -34,9 +34,13 @@
                 "varsIgnorePattern": "^_",
                 "caughtErrorsIgnorePattern": "^_"
             }
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
         ]
     },
-    "ignorePatterns": [
-        "metro.config.js"
-    ]
+    "ignorePatterns": ["metro.config.js"]
 }

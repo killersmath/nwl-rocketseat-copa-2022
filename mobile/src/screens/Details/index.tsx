@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Share } from "react-native";
 import { HStack, VStack } from "native-base";
 import { useRoute } from "@react-navigation/native";
@@ -15,6 +15,7 @@ import { Guesses } from "../../components/Guesses";
 import { useNotification } from "../../hooks/useShowNotification";
 
 import { api } from "../../services/api";
+import { Ranking } from "../../components/Ranking";
 
 interface DetailsRouteParams {
     id: string;
@@ -88,7 +89,16 @@ export function Details() {
                         />
                     </HStack>
 
-                    <Guesses poolId={poolDetails.id} code={poolDetails.code} />
+                    {optionSelected === "guesses" && (
+                        <Guesses
+                            poolId={poolDetails.id}
+                            code={poolDetails.code}
+                        />
+                    )}
+
+                    {optionSelected === "ranking" && (
+                        <Ranking poolId={poolDetails.id} />
+                    )}
                 </VStack>
             ) : (
                 <EmptyMyPoolList code={poolDetails.code} />
