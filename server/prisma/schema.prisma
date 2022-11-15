@@ -59,6 +59,16 @@ model Game {
     secondTeamCountryCode String
 
     guesses Guess[]
+    result  GameResult?
+}
+
+model GameResult {
+    id               String @id @default(cuid())
+    gameId           String @unique
+    firstTeamPoints  Int
+    secondTeamPoints Int
+
+    game Game @relation(fields: [gameId], references: [id])
 }
 
 model Guess {
