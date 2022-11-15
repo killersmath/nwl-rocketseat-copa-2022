@@ -20,7 +20,7 @@ export async function authRoutes(fastify: FastifyInstance) {
             {
                 method: "GET",
                 headers: {
-                    Authorization: `Bearer ${access_token},`,
+                    Authorization: `Bearer ${access_token}`,
                 },
             }
         );
