@@ -1,3 +1,8 @@
+import * as dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
+dotenv.config({ path: ".env" });
+
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import jwt from "@fastify/jwt";
@@ -9,15 +14,18 @@ import { guessRoutes } from "./routes/guess";
 import { userRoutes } from "./routes/user";
 
 const run = async () => {
+    if (!process.env.JWT_TOKEN_SECRET) {
+        throw new Error("You must provide the JWT TOKEN SECRET");
+    }
+
     const fastify = Fastify({
         logger: true,
     });
 
     await fastify.register(cors, { origin: true });
 
-    // TODO: Deve criar secret via env
     await fastify.register(jwt, {
-        secret: "teste-max",
+        secret: process.env.JWT_TOKEN_SECRET,
     });
 
     await fastify.register(poolRoutes);
