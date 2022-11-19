@@ -2,7 +2,7 @@ import { prisma } from "../lib/prisma";
 import { FastifyInstance } from "fastify";
 import { authenticate } from "../plugins/authenticate";
 import { z } from "zod";
-import { UserAttemp, UserSubmission } from "../@types/user";
+import { UserSubmission } from "../@types/user";
 import { EvaluateUserRankingUseCase } from "../usecases/evaluateUserRankingUsecase";
 
 export async function gameRoutes(fastify: FastifyInstance) {
