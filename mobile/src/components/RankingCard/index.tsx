@@ -59,7 +59,9 @@ export function RankingCard({ data }: RankingCardProps) {
                     fontSize="xs"
                     color={data.position <= 3 ? "black" : "gray.300"}
                     fontFamily="heading"
-                >{`${data.position}º`}</Text>
+                >
+                    {`${data.position}º`}
+                </Text>
             </Box>
         </Row>
     );
